@@ -87,7 +87,7 @@ var moves = {
     },
     altruest: function(gameData, helpers){
         var hero = gameData.activeHero;
-        if(hero.health == 100){
+        if(hero.health === 100){
             hero.healing = false;
         }else if(hero.health < 70){
             hero.healing = true;
@@ -113,7 +113,7 @@ var moves = {
             }else{
                 var directions = helpers.getValidDirections(gameData, hero).filter(function(item){
                     return !helpers.nextTo(gameData, item[1], function(tile){
-                        return tile.type === 'Hero' && tile.team !== hero.team
+                        return tile.type === 'Hero' && tile.team !== hero.team;
                     });
                 }).map(function(item){
                     return item[0];

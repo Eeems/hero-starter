@@ -33,7 +33,7 @@
                     "after": false
                 },
                 "case":{
-                    "before": 1,
+                    "before": true,
                     "after": false
                 },
                 "catch":{

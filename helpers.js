@@ -36,7 +36,7 @@ var helpers = {
         for(direction in directions){
             tile = directions[direction];
             if(tile){
-                results.push([direction, tile])
+                results.push([direction, tile]);
             }
         }
         return results;
