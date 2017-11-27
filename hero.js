@@ -111,19 +111,16 @@ var moves = {
             if(helpers.validateDirection(gameData, direction, hero)){
                 return direction;
             }else{
-                var directions = helpers.getDirections(gameData, hero),
-                    fDirection = false,
-                    tile, sDirection, sDirections;
-                for(direction in directions){
-                    tile = directions[direction];
-                    if(!helpers.nextTo(gameData, tile, function(tile){
+                var directions = helpers.getValidDirections(gameData, hero).filter(function(item){
+                    return !helpers.nextTo(gameData, item[1], function(tile){
                         return tile.type === 'Hero' && tile.team !== hero.team
-                    })){
-                        fDirection = direction;
-                        break;
-                    }
-                }
-                return fDirection;
+                    });
+                }).map(function(item){
+                    return item[0];
+                });
+                helpers.shuffleArray(directions);
+                directions.push(false);
+                return helpers[0];
             }
         }else{
             return helpers.findNearestHurtTeamMember(gameData) ||

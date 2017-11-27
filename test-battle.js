@@ -107,7 +107,7 @@ function runTurn(turn){
       // Ask your hero brain which way it wants to move
         direction = heroMoveFunction(game, helpers);
     }else{
-        direction = enemyMoveFunction(game, helpers);
+        direction = heroMoveFunction(game, helpers);
     }
     console.log('-----');
     console.log('Turn ' + turn + ':');

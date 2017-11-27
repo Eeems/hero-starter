@@ -9,8 +9,7 @@ var helpers = {
         if(hero === undefined){
             hero = gameData.activeHero;
         }
-        var board = gameData.board,
-            tile = helpers.getDirection(board, direction, hero);
+        var tile = helpers.getDirection(gameData, direction, hero);
         return tile && tile.type === 'Unoccupied';
     },
     getDirection: function(gameData, direction, hero){
@@ -23,13 +22,24 @@ var helpers = {
         if(hero === undefined){
             hero = gameData.activeHero;
         }
-        var board = gameData.board;
         return {
-            North: helpers.getDirection(board, 'North', hero),
-            South: helpers.getDirection(board, 'South', hero),
-            East: helpers.getDirection(board, 'East', hero),
-            West: helpers.getDirection(board, 'West', hero)
+            North: helpers.getDirection(gameData, 'North', hero),
+            South: helpers.getDirection(gameData, 'South', hero),
+            East: helpers.getDirection(gameData, 'East', hero),
+            West: helpers.getDirection(gameData, 'West', hero)
         };
+    },
+    getValidDirections: function(gameData, hero){
+        var directions = helpers.getDirections(gameData, hero),
+            results = [],
+            direction, tile;
+        for(direction in directions){
+            tile = directions[direction];
+            if(tile){
+                results.push([direction, tile])
+            }
+        }
+        return results;
     },
     nextTo: function(gameData, hero, validCallback){
         var directions = helpers.getDirections(gameData, hero),
@@ -250,6 +260,17 @@ var helpers = {
             return pathInfoObject.direction;
         }
         return false;
+    },
+    shuffleArray: function(a){
+        if(a.length){
+            var i, j, temp;
+            for(i = a.length - 1; i > 0; i--){
+                j = Math.floor(Math.random() * (i + 1));
+                temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
     }
 };
 
