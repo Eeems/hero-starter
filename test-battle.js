@@ -57,8 +57,8 @@ var enemyMoveFunction = function(gameData, helpers){
 
 var currentTurn = 0;
 
-// Makes a new game with a 5x5 board
-var game = new Game(5);
+// Makes a new game with a 10x10 board
+var game = new Game(10);
 
 game.maxTurn = cliOptions.turns;
 
@@ -67,17 +67,19 @@ game.maxTurn = cliOptions.turns;
  */
 function gameSetup(){
     // Add a health well in the middle of the board
-    game.addHealthWell(2,2);
+    game.addHealthWell(5,5);
 
     // Add diamond mines on either side of the health well
-    game.addDiamondMine(2,1);
-    game.addDiamondMine(2,3);
+    game.addDiamondMine(5,4);
+    game.addDiamondMine(5,6);
 
     // Add your hero in the top left corner of the map (team 0)
     game.addHero(0, 0, 'MyHero', 0);
+    game.addHero(1, 1, 'MyHero', 0);
 
     // Add an enemy hero in the bottom right corner of the map (team 1)
-    game.addHero(4, 4, 'Enemy', 1);
+    game.addHero(8, 8, 'Enemy', 1);
+    game.addHero(9, 9, 'Enemy', 1);
 
     if(cliOptions.wait){ // wait mode
         clearScreen();
