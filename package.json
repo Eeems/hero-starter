@@ -5,7 +5,8 @@
   "scripts": {
     "sanity": "mocha -R spec ./test/spec/HeroBrainSpec.js",
     "lint": "eslint ./",
-    "test": "npm run sanity && npm run lint"
+    "test": "npm run sanity && npm run lint",
+    "test-battle": "node test-battle.js"
   },
   "repository": {
     "type": "git",

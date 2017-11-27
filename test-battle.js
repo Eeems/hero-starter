@@ -24,7 +24,7 @@ args.description('CLI to test the hero.js code locally')
     .parse(process.argv);
 
 // args validation
-if (args.turns && isNaN(args.turns)) {
+if(args.turns && isNaN(args.turns)){
     console.log();
     console.log("**Invalid turns input, input has to be an integer");
     args.outputHelp();
@@ -32,7 +32,7 @@ if (args.turns && isNaN(args.turns)) {
 }
 
 // overwrite cli parameters
-for (var key in args) {
+for(var key in args){
     cliOptions[key] = args[key];
 }
 
@@ -46,7 +46,7 @@ var Game = GameEngine.getGame();
 var heroMoveFunction = require('./hero.js');
 
 // The move function ("brain") the practice enemy will use
-var enemyMoveFunction = function (gameData, helpers) {
+var enemyMoveFunction = function(gameData, helpers){
   // Move in a random direction
 
     // var choices = ['North', 'South', 'East', 'West'];
@@ -65,7 +65,7 @@ game.maxTurn = cliOptions.turns;
 /**
  * Sets up the game's enviroment and adds heroes, displays startup summary
  */
-function gameSetup () {
+function gameSetup(){
     // Add a health well in the middle of the board
     game.addHealthWell(2,2);
 
@@ -79,7 +79,7 @@ function gameSetup () {
     // Add an enemy hero in the bottom right corner of the map (team 1)
     game.addHero(4, 4, 'Enemy', 1);
 
-    if (cliOptions.wait){ // wait mode
+    if(cliOptions.wait){ // wait mode
         clearScreen();
     }
 
@@ -90,7 +90,7 @@ function gameSetup () {
     // game, the game object will not have any functions on it)
     game.board.inspect();
 
-    if (cliOptions.wait){ // wait mode
+    if(cliOptions.wait){ // wait mode
         console.log();
         console.log("Press ENTER to continue");
     }
@@ -100,13 +100,13 @@ function gameSetup () {
  * Runs the current turn
  * param {integer} turn - the current turn of the game
  */
-function runTurn (turn) {
+function runTurn(turn){
     var hero = game.activeHero;
     var direction;
-    if (hero.name === 'MyHero') {
+    if(hero.name === 'MyHero'){
       // Ask your hero brain which way it wants to move
         direction = heroMoveFunction(game, helpers);
-    } else {
+    }else{
         direction = enemyMoveFunction(game, helpers);
     }
     console.log('-----');
@@ -118,7 +118,7 @@ function runTurn (turn) {
     game.handleHeroTurn(direction);
     game.board.inspect();
 
-    if (cliOptions.wait && turn<cliOptions.turns){ // wait mode
+    if(cliOptions.wait && turn<cliOptions.turns){ // wait mode
         console.log();
         console.log("Press ENTER to continue");
     }
@@ -127,12 +127,12 @@ function runTurn (turn) {
 /**
  * Display summary of the game result
  */
-function gameSummary () {
-    if (game.winningTeam === 0) {
+function gameSummary(){
+    if(game.winningTeam === 0){
         console.log('You have won!');
-    } else if (game.winningTeam === 1) {
+    }else if(game.winningTeam === 1){
         console.log('You have lost.');
-    } else {
+    }else{
         console.log('The game has ended with no winner.');
     }
 }
@@ -140,14 +140,14 @@ function gameSummary () {
 /**
  * End of game, what to do?
  */
-function gameEnd () {
+function gameEnd(){
     gameSummary();
     process.exit();
 }
 
 // Utils helper functions
 // Clears the console's screen
-function clearScreen () {
+function clearScreen(){
     process.stdout.write('\033c');
 }
 
@@ -157,30 +157,31 @@ function clearScreen () {
 gameSetup();
 
 // Run Turns
-if (cliOptions.wait){ // wait mode
+if(cliOptions.wait){ // wait mode
     const readline = require('readline');
     readline.emitKeypressEvents(process.stdin);
-
-    process.stdin.setRawMode(true);
+    if(process.stdin.isTTY){
+        process.stdin.setRawMode(true);
+    }
     process.stdin.setEncoding('utf8');
 
     process.stdin.on('keypress', (str, key) => {
-        if (key.name === 'return') {
-            if (currentTurn<cliOptions.turns){
+        if(key.name === 'return'){
+            if(currentTurn<cliOptions.turns){
                 clearScreen();
                 currentTurn++;
                 runTurn(currentTurn);
-            } else {
+            }else{
                 // Game ends
                 gameEnd();
             }
-        } else if (key.ctrl && key.name==='c'){ // ctrl + c, exit immediately
+        }else if(key.ctrl && key.name==='c'){ // ctrl + c, exit immediately
             console.log("Pressed Ctrl + C, exiting test-battle.js");
             process.exit();
         }
     });
-} else { // normal mode, runs in 1 go
-    for (currentTurn=1; currentTurn<=cliOptions.turns; currentTurn++) {
+}else{ // normal mode, runs in 1 go
+    for(currentTurn=1; currentTurn<=cliOptions.turns; currentTurn++){
         runTurn(currentTurn);
     }
     // Game ends
